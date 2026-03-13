@@ -3,69 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LINEを開く</title>
+    <title>LINE登録</title>
     <style>
-        /* 画面全体をタップ可能なボタンにする */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f6f6;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        .full-screen-btn {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color: #333;
-        }
-        .line-btn {
-            background-color: #06C755;
-            color: white;
-            padding: 18px 40px;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .message {
-            font-size: 14px;
-            color: #666;
-            text-align: center;
-            line-height: 1.5;
-        }
+        body { font-family: -apple-system, sans-serif; text-align: center; background: #f5f6f6; margin: 0; padding: 20px; }
+        .line-btn { display: inline-block; background: #06C755; color: white; padding: 18px 40px; border-radius: 30px; font-size: 18px; font-weight: bold; text-decoration: none; margin-top: 30px; }
+        
+        /* アプリ内ブラウザ向けの警告用スタイル */
+        #in-app-warning { display: none; background: #ffebee; color: #c62828; padding: 20px; border-radius: 10px; margin-bottom: 20px; font-weight: bold; line-height: 1.6; border: 2px solid #ef9a9a; }
+        .step-text { font-size: 16px; margin: 10px 0; }
     </style>
 </head>
 <body>
 
-    <a id="dynamic-link" href="https://line.me/R/ti/p/@413gistr" class="full-screen-btn">
-        <div class="line-btn">LINEアプリを開く</div>
-        <div class="message">
-            画面のどこをタップしても<br>LINEアプリが起動します
-        </div>
+    <div id="in-app-warning">
+        ⚠️ このままではLINEが正しく開きません<br>
+        <hr style="border:0; border-top:1px solid #ef9a9a; margin:15px 0;">
+        <div class="step-text">1. 画面右下（または右上）の <b>[ ･･･ ]</b> や <b>[ 🧭 ]</b> アイコンを押す</div>
+        <div class="step-text">2. <b>「ブラウザで開く」</b>（Safari / Chrome）を選ぶ</div>
+    </div>
+
+    <p>外部ブラウザで開いている場合は<br>下のボタンからLINEが起動します。</p>
+
+    <a href="https://line.me/R/ti/p/@413gistr" target="_blank" rel="noopener noreferrer" class="line-btn" id="line-link">
+        LINEアプリを開く
     </a>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var ua = navigator.userAgent.toLowerCase();
-            var linkElement = document.getElementById("dynamic-link");
-            var lineId = "@413gistr";
-
-            // OS判定と最適なリンクのセット
-            if (ua.indexOf("android") > -1) {
-                // Androidの場合: Intent URLを使用（Xのブラウザを最も確実に突破できる）
-                linkElement.href = "intent://ti/p/" + lineId + "#Intent;package=jp.naver.line.android;scheme=line;end;";
-            } else if (ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1 || ua.indexOf("ipod") > -1) {
-                // iOSの場合: カスタムスキームを使用
-                linkElement.href = "line://ti/p/" + lineId;
-            } else {
-                // PCなどの場合: 公式のWebリンク
-                linkElement.href = "https://line.me/R/ti/p/" + lineId;
+            var isTwitter = ua.indexOf("twitter") > -1;
+            var isLine = ua.indexOf("line") > -1;
+            var isInstagram = ua.indexOf("instagram") > -1;
+            
+            // アプリ内ブラウザ（Xなど）であることを検知した場合
+            if (isTwitter || isLine || isInstagram) {
+                // 警告文を表示して、外部ブラウザへの移行を促す
+                document.getElementById("in-app-warning").style.display = "block";
             }
         });
     </script>
