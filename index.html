@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>LINEアプリを起動中...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: -apple-system, sans-serif; text-align: center; padding-top: 50px; background: #fff; }
+        .btn { display: inline-block; padding: 15px 30px; background: #06C755; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <p>LINEアプリを起動しています...<br>自動で開かない場合は下のボタンを押してください。</p>
+    <a href="line://ti/p/@413gistr" class="btn">LINEを開く</a>
+
+    <script>
+        const lineUrl = "line://ti/p/@413gistr";
+        const webUrl = "https://line.me/R/ti/p/@413gistr";
+
+        function openLine() {
+            // 1. Android/iOSの両方で有効なURLスキームを叩く
+            window.location.href = lineUrl;
+
+            // 2. 0.5秒後に予備としてもう一度実行
+            setTimeout(() => {
+                window.location.href = lineUrl;
+            }, 500);
+
+            // 3. 2秒経ってもページに留まっている（＝アプリが開かなかった）場合、公式Webリンクへ
+            setTimeout(() => {
+                if (!document.hidden) {
+                    window.location.href = webUrl;
+                }
+            }, 2000);
+        }
+
+        // ページ読み込み時に実行
+        window.onload = openLine;
+    </script>
+</body>
+</html>
