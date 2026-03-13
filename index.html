@@ -2,40 +2,73 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>LINEアプリを起動中...</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINEを開く</title>
     <style>
-        body { font-family: -apple-system, sans-serif; text-align: center; padding-top: 50px; background: #fff; }
-        .btn { display: inline-block; padding: 15px 30px; background: #06C755; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; margin-top: 20px; }
+        /* 画面全体をタップ可能なボタンにする */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f6f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .full-screen-btn {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: #333;
+        }
+        .line-btn {
+            background-color: #06C755;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
-    <p>LINEアプリを起動しています...<br>自動で開かない場合は下のボタンを押してください。</p>
-    <a href="line://ti/p/@413gistr" class="btn">LINEを開く</a>
+
+    <a id="dynamic-link" href="https://line.me/R/ti/p/@413gistr" class="full-screen-btn">
+        <div class="line-btn">LINEアプリを開く</div>
+        <div class="message">
+            画面のどこをタップしても<br>LINEアプリが起動します
+        </div>
+    </a>
 
     <script>
-        const lineUrl = "line://ti/p/@413gistr";
-        const webUrl = "https://line.me/R/ti/p/@413gistr";
+        document.addEventListener("DOMContentLoaded", function() {
+            var ua = navigator.userAgent.toLowerCase();
+            var linkElement = document.getElementById("dynamic-link");
+            var lineId = "@413gistr";
 
-        function openLine() {
-            // 1. Android/iOSの両方で有効なURLスキームを叩く
-            window.location.href = lineUrl;
-
-            // 2. 0.5秒後に予備としてもう一度実行
-            setTimeout(() => {
-                window.location.href = lineUrl;
-            }, 500);
-
-            // 3. 2秒経ってもページに留まっている（＝アプリが開かなかった）場合、公式Webリンクへ
-            setTimeout(() => {
-                if (!document.hidden) {
-                    window.location.href = webUrl;
-                }
-            }, 2000);
-        }
-
-        // ページ読み込み時に実行
-        window.onload = openLine;
+            // OS判定と最適なリンクのセット
+            if (ua.indexOf("android") > -1) {
+                // Androidの場合: Intent URLを使用（Xのブラウザを最も確実に突破できる）
+                linkElement.href = "intent://ti/p/" + lineId + "#Intent;package=jp.naver.line.android;scheme=line;end;";
+            } else if (ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1 || ua.indexOf("ipod") > -1) {
+                // iOSの場合: カスタムスキームを使用
+                linkElement.href = "line://ti/p/" + lineId;
+            } else {
+                // PCなどの場合: 公式のWebリンク
+                linkElement.href = "https://line.me/R/ti/p/" + lineId;
+            }
+        });
     </script>
+
 </body>
 </html>
