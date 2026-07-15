@@ -42,6 +42,29 @@
             android:layout_marginTop="32dp"
             android:text="@string/grant_button" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="?android:attr/listDivider" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/rootSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:enabled="false"
+            android:text="@string/root_toggle_label"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/rootStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textSize="13sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

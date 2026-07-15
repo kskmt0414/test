@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var statusText: TextView
     private lateinit var maxSwitch: SwitchCompat
     private lateinit var grantButton: Button
+    private lateinit var rootSwitch: SwitchCompat
+    private lateinit var rootStatus: TextView
 
     /** Whether we changed the system brightness, so we can restore it on exit. */
     private var previousSystemBrightness: Int? = null
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity() {
         statusText = findViewById(R.id.statusText)
         maxSwitch = findViewById(R.id.maxSwitch)
         grantButton = findViewById(R.id.grantButton)
+        rootSwitch = findViewById(R.id.rootSwitch)
+        rootStatus = findViewById(R.id.rootStatus)
 
         maxSwitch.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
             if (isChecked) enableMax() else disableMax()
@@ -55,8 +59,38 @@ class MainActivity : AppCompatActivity() {
 
         grantButton.setOnClickListener { requestWriteSettings() }
 
+        rootSwitch.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
+            onRootToggle(isChecked)
+        }
+
         // Start maxed out immediately.
         maxSwitch.isChecked = true
+
+        // Probe for root off the UI thread; enable the toggle only if available.
+        Thread {
+            val hasRoot = RootBrightness.isRootAvailable()
+            runOnUiThread {
+                rootSwitch.isEnabled = hasRoot
+                rootStatus.text = getString(
+                    if (hasRoot) R.string.root_available else R.string.root_unavailable
+                )
+            }
+        }.start()
+    }
+
+    private fun onRootToggle(enable: Boolean) {
+        rootSwitch.isEnabled = false
+        Thread {
+            val ok = if (enable) RootBrightness.enable() else RootBrightness.disable()
+            runOnUiThread {
+                rootSwitch.isEnabled = true
+                rootStatus.text = when {
+                    !ok -> getString(R.string.root_failed)
+                    enable -> getString(R.string.root_on) + "\n" + getString(R.string.root_warn)
+                    else -> getString(R.string.root_off)
+                }
+            }
+        }.start()
     }
 
     override fun onResume() {

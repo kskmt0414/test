@@ -10,5 +10,13 @@
     <string name="status_system_on">最大(255)に設定・自動調整OFF</string>
     <string name="status_system_off">未許可（権限を許可すると有効）</string>
 
+    <string name="root_toggle_label">🔓 限界突破（root: HBM＋物理最大）</string>
+    <string name="root_available">root 検出済み。屋外など必要な時だけ ON にしてください。</string>
+    <string name="root_unavailable">root 未検出（この機能は root 端末専用です）</string>
+    <string name="root_warn">⚠️ HBM 常時 ON は 発熱・電池消費・OLED 焼き付き のリスク。使用後は OFF に戻してください。</string>
+    <string name="root_on">🔓 限界突破 ON（HBM＋物理最大を試行）</string>
+    <string name="root_off">限界突破 OFF に戻しました</string>
+    <string name="root_failed">適用に失敗しました。root/su 権限を確認してください。</string>
+
     <string name="explanation">仕組みと限界について:\n\n・root なしのアプリは、端末のハード最大輝度を物理的に超えることはできません。\n\n・このアプリはウィンドウ輝度を最大(1.0)に固定し、画面スリープを防ぎ、許可があればシステム輝度も255・自動調整OFFにします。これが root なしで到達できる本当の最大です。\n\n・多くの端末では、明るい屋外でこの状態にすると、OSが自動でHBM（高輝度モード）を作動させ、スライダー最大を超える明るさになります。アプリからHBMを強制することはできません。</string>
 </resources>
