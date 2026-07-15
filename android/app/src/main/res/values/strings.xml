@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MaxBright</string>
+    <string name="toggle_label">画面を最大輝度に固定</string>
+    <string name="grant_button">システム輝度も上げる（権限を許可）</string>
+    <string name="need_permission">「設定の変更」権限が必要です</string>
+
+    <string name="status_on">最大輝度で固定中\n・ウィンドウ輝度: 1.0（最大）\n・画面スリープ防止: ON\n・システム輝度: %1$s</string>
+    <string name="status_off">オフ（通常の輝度に戻しました）</string>
+    <string name="status_system_on">最大(255)に設定・自動調整OFF</string>
+    <string name="status_system_off">未許可（権限を許可すると有効）</string>
+
+    <string name="explanation">仕組みと限界について:\n\n・root なしのアプリは、端末のハード最大輝度を物理的に超えることはできません。\n\n・このアプリはウィンドウ輝度を最大(1.0)に固定し、画面スリープを防ぎ、許可があればシステム輝度も255・自動調整OFFにします。これが root なしで到達できる本当の最大です。\n\n・多くの端末では、明るい屋外でこの状態にすると、OSが自動でHBM（高輝度モード）を作動させ、スライダー最大を超える明るさになります。アプリからHBMを強制することはできません。</string>
+</resources>
